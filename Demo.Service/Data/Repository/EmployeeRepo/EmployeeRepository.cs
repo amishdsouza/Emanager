@@ -52,10 +52,10 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
             return employee;
         }
 
-        public List<EmployeesInformationDto> GetEmployees()
+        public List<EmployeeDto> GetEmployees()
         {
             var res = (from employee in _context.Employee
-            select new EmployeesInformationDto
+            select new EmployeeDto
             {
                 //Id = employee.Id,
                 Name = employee.Name,
@@ -66,7 +66,7 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
                         join role in _context.Role
                         on empRoleMap.RoleID equals role.Id
                         where empRoleMap.EmployeeID == employee.Id
-                        select role.Name).ToList()
+                        select role.Name).ToList() //roledto
             }).ToList();
             return res;
         }

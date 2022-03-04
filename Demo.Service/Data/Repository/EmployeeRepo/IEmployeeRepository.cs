@@ -8,7 +8,7 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
 {
     public interface IEmployeeRepository
     {
-       List<EmployeesInformationDto> GetEmployees();
+       List<EmployeeDto> GetEmployees();
 
         EmployeeDto GetEmployee(int id);
 
