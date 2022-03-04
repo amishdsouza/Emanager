@@ -14,11 +14,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Demo.Model
 {
-   
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-       
         private readonly IEmployeeInteractor _employeeInteractor;
         private readonly IMapper _mapper;
 

@@ -31,18 +31,16 @@ namespace Demo
         {
             services.AddControllers();
 
-
-
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<IEmployeeInteractor, EmployeeInteractor>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
+            services.AddScoped<IRoleInteractor, RoleInteractor>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+
             services.AddDbContext<DemoDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DemoConnectionString")));
-
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
