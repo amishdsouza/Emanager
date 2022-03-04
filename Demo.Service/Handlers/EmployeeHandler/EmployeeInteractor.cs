@@ -41,7 +41,6 @@ namespace Demo.Service.Handlers.EmployeeHandler
             return mappedEmployeeOutput;
         }
 
-
         public List<EmployeeDto> GetEmployees()
         {
             var employeesOutput = _employeeRepository.GetEmployees();

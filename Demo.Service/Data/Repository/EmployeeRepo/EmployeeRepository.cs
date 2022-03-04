@@ -52,26 +52,42 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
             return employee;
         }
 
-
-        public List<Employee> GetEmployees()
+        public List<EmployeesInformationDto> GetEmployees()
         {
-            return _context.Employee.ToList();
+            var res = (from employee in _context.Employee
+            select new EmployeesInformationDto
+            {
+                //Id = employee.Id,
+                Name = employee.Name,
+                EmailID = employee.EmailID,
+                Gender = employee.Gender,
+                Roles = (
+                        from empRoleMap in _context.EmpRoleMap
+                        join role in _context.Role
+                        on empRoleMap.RoleID equals role.Id
+                        where empRoleMap.EmployeeID == employee.Id
+                        select role.Name).ToList()
+            }).ToList();
+            return res;
         }
 
         public EmployeeDto GetEmployee(int id)
         {
             var res = (from employee in _context.Employee
-                      where employee.Id == id
-                      select new EmployeeDto
-                      {
-                          Name = employee.Name,
-                          EmailID = employee.EmailID,
-                          Gender = employee.Gender.ToString(),
-                          Roles = (from empRoleMap in _context.EmpRoleMap
-                                   join role in _context.Role on empRoleMap.RoleID equals role.Id
-                                   where empRoleMap.EmployeeID == id
-                                   select role.Name).ToList()
-                      }).FirstOrDefault();
+            where employee.Id == id
+            select new EmployeeDto
+            {
+                Name = employee.Name,
+                EmailID = employee.EmailID,
+                Gender = employee.Gender,
+                Roles = (
+                from empRoleMap in _context.EmpRoleMap
+                join role in _context.Role 
+                on empRoleMap.RoleID equals role.Id
+                where empRoleMap.EmployeeID == id
+                select role.Name)
+                .ToList()
+            }).FirstOrDefault();
             return res;
         }
     }

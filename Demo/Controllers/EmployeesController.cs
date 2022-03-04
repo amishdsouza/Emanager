@@ -77,14 +77,5 @@ namespace Demo.Model
             var response = _employeeInteractor.GetEmployee(id);
             return Ok(response);
         }
-
-
-        /*[HttpGet]
-        [Route("api/[controller]")]
-        public ActionResult GetRoles()
-        {
-            var response =_employeeInteractor.GetRoles();
-            return Ok(response);
-        }*/
     }
 }

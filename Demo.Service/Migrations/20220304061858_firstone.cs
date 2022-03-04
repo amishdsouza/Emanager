@@ -2,7 +2,7 @@
 
 namespace Demo.Service.Migrations
 {
-    public partial class first : Migration
+    public partial class firstone : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,7 @@ namespace Demo.Service.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     EmailID = table.Column<string>(nullable: true),
-                    Gender = table.Column<int>(nullable: false)
+                    Gender = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
