@@ -93,15 +93,19 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
 
         public Role GetRoleById(RoleDto mappedRoleInput)
         {
-            var deletedRoleMapping = _context.Role.Where(u => (u.Name == mappedRoleInput.Roles)).FirstOrDefault();
-            return deletedRoleMapping;
+            var getRoleMapping = _context.Role.Where(u => (u.Name == mappedRoleInput.Name)).FirstOrDefault();
+            return getRoleMapping;
         }
 
-        public EmpRoleMap AddEmployeeMapping(EmpRoleMap sendvalue)
+        public int AddEmployeeMapping(int rolesOutput, int employeesOutput)
         {
-            _context.EmpRoleMap.Add(sendvalue);
-            _context.SaveChanges();
-            return sendvalue;
+            var res = (from mapping in _context.EmpRoleMap
+                       select new EmpRoleMap
+                       {
+                           EmployeeID = rolesOutput,
+                           RoleID = employeesOutput
+                       }).FirstOrDefault();
+            return 1;
         }
     }
 }

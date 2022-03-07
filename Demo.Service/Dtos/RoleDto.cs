@@ -8,7 +8,7 @@ namespace Demo.Service.Dtos
 {
     public class RoleDto
     {
-        public string Roles { get; set; }
+        public string Name { get; set; }
     }
 
     public class EditRoleDto

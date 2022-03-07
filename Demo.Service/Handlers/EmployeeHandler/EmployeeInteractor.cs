@@ -57,19 +57,13 @@ namespace Demo.Service.Handlers.EmployeeHandler
 
         public AddEmployeeDto AddEmployee(AddEmployeeDto employeeInput)
         {
-            var mappedRoleInput = _mapper.Map<RoleDto>(employeeInput);
-            var roleIdMapping = _employeeRepository.GetRoleById(mappedRoleInput);
-            //var roleIdInformation = _mapper.Map<IdDtos>(roleIdMapping.Id);
+            var mappedRoleOutput = _mapper.Map<RoleDto>(employeeInput);
+            var rolesOutput = _employeeRepository.GetRoleById(mappedRoleOutput);
             
-            
-            var MappedEmployeeInput = _mapper.Map<Employee>(employeeInput);
-            var employeesOutput = _employeeRepository.AddEmployee(MappedEmployeeInput);
-            //var employeeIdInformation = _mapper.Map<IdDtos>(employeesOutput.Id);
+            var mappedEmployeeOutput = _mapper.Map<Employee>(employeeInput);
+            var employeesOutput = _employeeRepository.AddEmployee(mappedEmployeeOutput);
 
-            var newone = (roleIdMapping, employeesOutput);
-            var sendvalue = _mapper.Map<EmpRoleMap>(newone);
-
-            _employeeRepository.AddEmployeeMapping(sendvalue);
+            _employeeRepository.AddEmployeeMapping(rolesOutput.Id, employeesOutput.Id);
 
             return employeeInput;
         }

@@ -20,7 +20,8 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
 
         Role GetRoleById(RoleDto mappedRoleInput);
 
-        EmpRoleMap AddEmployeeMapping(EmpRoleMap sendvalue);
+
+        int AddEmployeeMapping(int rolesOutput, int employeesOutput);
 
 
     }
