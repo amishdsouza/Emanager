@@ -25,13 +25,13 @@ namespace Demo.Service.Handlers.EmployeeHandler
             return employeesOutput;
         }
 
-        public AddDto AddEmployee(AddDto employeeInput)
+        /*public AddDto AddEmployee(AddDto employeeInput)
         {
-            var employeeI = _mapper.Map<Employee>(employeeInput);
-            var employeesOutput = _employeeRepository.AddEmployee(employeeI);
+            var MappedEmployeeInput = _mapper.Map<Employee>(employeeInput);
+            var employeesOutput = _employeeRepository.AddEmployee(MappedEmployeeInput);
             var mappedEmployeeOutput = _mapper.Map<AddDto>(employeesOutput);
             return mappedEmployeeOutput;
-        }
+        }*/
 
         public EditDto EditEmployee(EditDto employeeInput)
         {
@@ -53,6 +53,25 @@ namespace Demo.Service.Handlers.EmployeeHandler
             var employeesOutput = _employeeRepository.GetEmployee(id);
             var mappedEmployeesOutput = _mapper.Map<EmployeeDto>(employeesOutput);
             return mappedEmployeesOutput;
+        }
+
+        public AddEmployeeDto AddEmployee(AddEmployeeDto employeeInput)
+        {
+            var mappedRoleInput = _mapper.Map<RoleDto>(employeeInput);
+            var roleIdMapping = _employeeRepository.GetRoleById(mappedRoleInput);
+            //var roleIdInformation = _mapper.Map<IdDtos>(roleIdMapping.Id);
+            
+            
+            var MappedEmployeeInput = _mapper.Map<Employee>(employeeInput);
+            var employeesOutput = _employeeRepository.AddEmployee(MappedEmployeeInput);
+            //var employeeIdInformation = _mapper.Map<IdDtos>(employeesOutput.Id);
+
+            var newone = (roleIdMapping, employeesOutput);
+            var sendvalue = _mapper.Map<EmpRoleMap>(newone);
+
+            _employeeRepository.AddEmployeeMapping(sendvalue);
+
+            return employeeInput;
         }
     }
 }

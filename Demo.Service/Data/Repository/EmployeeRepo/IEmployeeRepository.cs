@@ -17,5 +17,11 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
         Employee AddEmployee(Employee employee);
 
         Employee EditEmployee(Employee employee);
+
+        Role GetRoleById(RoleDto mappedRoleInput);
+
+        EmpRoleMap AddEmployeeMapping(EmpRoleMap sendvalue);
+
+
     }
 }

@@ -90,5 +90,18 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
             }).FirstOrDefault();
             return res;
         }
+
+        public Role GetRoleById(RoleDto mappedRoleInput)
+        {
+            var deletedRoleMapping = _context.Role.Where(u => (u.Name == mappedRoleInput.Roles)).FirstOrDefault();
+            return deletedRoleMapping;
+        }
+
+        public EmpRoleMap AddEmployeeMapping(EmpRoleMap sendvalue)
+        {
+            _context.EmpRoleMap.Add(sendvalue);
+            _context.SaveChanges();
+            return sendvalue;
+        }
     }
 }

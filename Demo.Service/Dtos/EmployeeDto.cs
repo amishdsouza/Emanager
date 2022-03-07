@@ -21,6 +21,17 @@ namespace Demo.Service.Dtos
         public string Gender { get; set; }
     }
 
+    public class AddEmployeeDto: AddDto
+    {
+        public string Roles { get; set; }
+    }
+
+    public class IdDtos
+    {
+        public int roleIdInformation { get; set; }
+        public int employeeIdInformation { get; set; }
+    }
+
     public class EditDto
     {
         public int Id { get; set; }
@@ -38,6 +49,13 @@ namespace Demo.Service.Dtos
             CreateMap<Employee, EmployeeDto>().ReverseMap();
             CreateMap<Employee, AddDto>().ReverseMap();
             CreateMap<Employee, EditDto>().ReverseMap();
+
+            CreateMap<AddEmployeeDto, RoleDto>().ReverseMap();
+
+
+            CreateMap<Role, EmpRoleMap>().ReverseMap();
+            CreateMap<Employee, EmpRoleMap>().ReverseMap();
+            //CreateMap<IdDtos, Role>().ReverseMap();
         }
     }
 }

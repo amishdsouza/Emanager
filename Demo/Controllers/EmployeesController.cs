@@ -26,13 +26,13 @@ namespace Demo.Model
             _mapper = mapper;
         }
         
-        [HttpPost]
+        /*[HttpPost]
         [Route("api/[controller]")]
         public ActionResult AddEmployee(AddDto employeeInput)
         {
             var response = _employeeInteractor.AddEmployee(employeeInput);
             return Ok(response);
-        }
+        }*/
 
         [HttpPatch]
         [Route("api/[controller]/{id}")]
@@ -59,7 +59,6 @@ namespace Demo.Model
         }
 
 
-
         [HttpGet]
         [Route("api/[controller]")]
         public ActionResult GetEmployees()
@@ -75,5 +74,14 @@ namespace Demo.Model
             var response = _employeeInteractor.GetEmployee(id);
             return Ok(response);
         }
+
+        [HttpPost]
+        [Route("api/[controller]")]
+        public ActionResult AddEmployee(AddEmployeeDto employeeInput)
+        {
+            var response = _employeeInteractor.AddEmployee(employeeInput);
+            return Ok(response);
+        }
+
     }
 }

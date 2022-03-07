@@ -11,6 +11,7 @@ namespace Demo.Service.Model
         [Key]
         public int Id { get; set; }
 
+
         public int EmployeeID { get; set; }
         [ForeignKey("EmployeeID")]
         public virtual Employee Employees { get; set; }
