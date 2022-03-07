@@ -8,10 +8,13 @@ namespace Demo.Service.Dtos
 {
     public class RoleDto
     {
+        public string Name { get; set; }
+    }
+
+    public class EditRoleDto
+    {
         public int Id { get; set; }
         public string Name { get; set; }
-        /*public string EmailID { get; set; }
-        public string Gender { get; set; }*/
     }
 
     public class RoleProfile : Profile
@@ -19,6 +22,7 @@ namespace Demo.Service.Dtos
         public RoleProfile()
         {
             CreateMap<Role, RoleDto>().ReverseMap();
+            CreateMap<Role, EditRoleDto>().ReverseMap();
         }
     }
 }

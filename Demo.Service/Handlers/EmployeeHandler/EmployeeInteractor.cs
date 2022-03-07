@@ -35,8 +35,8 @@ namespace Demo.Service.Handlers.EmployeeHandler
 
         public EditDto EditEmployee(EditDto employeeInput)
         {
-            var mappedClientInput = _mapper.Map<Employee>(employeeInput);
-            var employeesOutput = _employeeRepository.EditEmployee(mappedClientInput);
+            var mappedEmployeeInput = _mapper.Map<Employee>(employeeInput);
+            var employeesOutput = _employeeRepository.EditEmployee(mappedEmployeeInput);
             var mappedEmployeeOutput = _mapper.Map<EditDto>(employeesOutput);
             return mappedEmployeeOutput;
         }

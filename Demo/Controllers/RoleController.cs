@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Demo.Service.Dtos;
 using Demo.Service.Handlers.EmployeeHandler;
+using Demo.Service.Model;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,40 @@ namespace Demo.Controllers
         public ActionResult GetRoles()
         {
             List<RoleDto> response = _roleInteractor.GetRoles();
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("api/[controller]/{id}")]
+        public ActionResult GetRole(int id)
+        {
+            var response = _roleInteractor.GetRole(id);
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("api/[controller]")]
+        public ActionResult AddRole(RoleDto roleInput)
+        {
+            var response = _roleInteractor.AddRole(roleInput);
+            return Ok(response);
+        }
+
+
+        [HttpDelete]
+        [Route("api/[controller]/{id}")]
+        public ActionResult DeleteRole(int id)
+        {
+            var response = _roleInteractor.DeleteRole(id);
+            return Ok(response);
+        }
+
+        [HttpPatch]
+        [Route("api/[controller]/{id}")]
+        public ActionResult EditRole(int id, EditRoleDto roleInput)
+        {
+            roleInput.Id = id;
+            var response = _roleInteractor.EditRole(roleInput);
             return Ok(response);
         }
     }

@@ -8,6 +8,15 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
 {
     public interface IRoleRepository
     {
-        List<RoleDto> GetRoles();
+        Role AddRole(Role role);
+        Role DeleteRole(Role role);
+        Role GetRole(int id);
+        List<Role> GetRoles();
+
+
+        bool CheckRole(int id);
+        EmpRoleMap GetRoleMapping(int id);
+
+        Role EditRole(Role role);
     }
 }
