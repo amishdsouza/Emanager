@@ -19,6 +19,37 @@ namespace Demo.Service.Handlers.EmployeeHandler
             _mapper = mapper;
         }
 
+        public List<EmployeeDto> GetEmployees()
+        {
+            var employeesOutput = _employeeRepository.GetEmployees();
+            var mappedEmployeesOutput = _mapper.Map<List<EmployeeDto>>(employeesOutput);
+            return mappedEmployeesOutput;
+        }
+
+        public EmployeeDto GetEmployee(int id)
+        {
+            var employeesOutput = _employeeRepository.GetEmployee(id);
+            var mappedEmployeesOutput = _mapper.Map<EmployeeDto>(employeesOutput);
+            return mappedEmployeesOutput;
+        }
+
+        public AddDto AddEmployee(AddDto employeeInput)
+        {
+            var mappedEmployeeOutput = _mapper.Map<Employee>(employeeInput);
+
+            var employeesOutput = _employeeRepository.AddEmployee(mappedEmployeeOutput);
+
+            var userRoleBranch = new EmpRoleMapDto()
+            {
+                RoleID = employeeInput.RoleIDs,
+                EmployeeID = employeesOutput.Id
+            };
+
+            var mapOutput = _mapper.Map<EmpRoleMap>(userRoleBranch);
+            _employeeRepository.AddEmployeeMapping(mapOutput);
+            return employeeInput;
+        }
+
         public Employee DeleteEmployee(Employee employee)
         {
             var employeesOutput = _employeeRepository.DeleteEmployee(employee);
@@ -41,31 +72,6 @@ namespace Demo.Service.Handlers.EmployeeHandler
             return mappedEmployeeOutput;
         }
 
-        public List<EmployeeDto> GetEmployees()
-        {
-            var employeesOutput = _employeeRepository.GetEmployees();
-            var mappedEmployeesOutput = _mapper.Map<List<EmployeeDto>>(employeesOutput);
-            return mappedEmployeesOutput;
-        }
-
-        public EmployeeDto GetEmployee(int id)
-        {
-            var employeesOutput = _employeeRepository.GetEmployee(id);
-            var mappedEmployeesOutput = _mapper.Map<EmployeeDto>(employeesOutput);
-            return mappedEmployeesOutput;
-        }
-
-        public AddEmployeeDto AddEmployee(AddEmployeeDto employeeInput)
-        {
-            var mappedRoleOutput = _mapper.Map<RoleDto>(employeeInput);
-            var rolesOutput = _employeeRepository.GetRoleById(mappedRoleOutput);
-            
-            var mappedEmployeeOutput = _mapper.Map<Employee>(employeeInput);
-            var employeesOutput = _employeeRepository.AddEmployee(mappedEmployeeOutput);
-
-            _employeeRepository.AddEmployeeMapping(rolesOutput.Id, employeesOutput.Id);
-
-            return employeeInput;
-        }
+        
     }
 }

@@ -18,6 +18,6 @@ namespace Demo.Service.Handlers.EmployeeHandler
 
         EditDto EditEmployee(EditDto employeeInput);
 
-        AddEmployeeDto AddEmployee(AddEmployeeDto employeeInput);
+        AddDto AddEmployee(AddDto employeeInput);
     }
 }

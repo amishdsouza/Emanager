@@ -18,11 +18,6 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
 
         Employee EditEmployee(Employee employee);
 
-        Role GetRoleById(RoleDto mappedRoleInput);
-
-
-        int AddEmployeeMapping(int rolesOutput, int employeesOutput);
-
-
+        EmpRoleMap AddEmployeeMapping(EmpRoleMap mapOutput);
     }
 }

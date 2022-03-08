@@ -20,13 +20,48 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
             _context = context;
         }
 
-       
-        public Employee DeleteEmployee(Employee employee)
+        public List<EmployeeDto> GetEmployees()
         {
-            _context.Employee.Remove(employee);
+            var res = (from employee in _context.Employee
+                       select new EmployeeDto
+                       {
+                           Name = employee.Name,
+                           EmailID = employee.EmailID,
+                           Gender = employee.Gender,
+                           Roles = (
+                                   from empRoleMap in _context.EmpRoleMap
+                                   join role in _context.Role
+                                   on empRoleMap.RoleID equals role.Id
+                                   where empRoleMap.EmployeeID == employee.Id
+                                   select role.Name).ToList() 
+                       }).ToList();
+            return res;
+        }
+
+        public EmployeeDto GetEmployee(int id)
+        {
+            var res = (from employee in _context.Employee
+                       where employee.Id == id
+                       select new EmployeeDto
+                       {
+                           Name = employee.Name,
+                           EmailID = employee.EmailID,
+                           Gender = employee.Gender,
+                           Roles = (
+                           from empRoleMap in _context.EmpRoleMap
+                           join role in _context.Role
+                           on empRoleMap.RoleID equals role.Id
+                           where empRoleMap.EmployeeID == id
+                           select role.Name)
+                           .ToList()
+                       }).FirstOrDefault();
+            return res;
+        }
+        public Employee AddEmployee(Employee employee)
+        {
+            _context.Employee.Add(employee);
             _context.SaveChanges();
             return employee;
-
         }
 
         public Employee EditEmployee(Employee employee)
@@ -44,68 +79,30 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
             return employee;
         }
 
-
-        public Employee AddEmployee(Employee employee)
+        public Employee DeleteEmployee(Employee employee)
         {
-            _context.Employee.Add(employee);
+            _context.Employee.Remove(employee);
             _context.SaveChanges();
             return employee;
+
         }
 
-        public List<EmployeeDto> GetEmployees()
-        {
-            var res = (from employee in _context.Employee
-            select new EmployeeDto
-            {
-                //Id = employee.Id,
-                Name = employee.Name,
-                EmailID = employee.EmailID,
-                Gender = employee.Gender,
-                Roles = (
-                        from empRoleMap in _context.EmpRoleMap
-                        join role in _context.Role
-                        on empRoleMap.RoleID equals role.Id
-                        where empRoleMap.EmployeeID == employee.Id
-                        select role.Name).ToList() //roledto
-            }).ToList();
-            return res;
-        }
+       
 
-        public EmployeeDto GetEmployee(int id)
-        {
-            var res = (from employee in _context.Employee
-            where employee.Id == id
-            select new EmployeeDto
-            {
-                Name = employee.Name,
-                EmailID = employee.EmailID,
-                Gender = employee.Gender,
-                Roles = (
-                from empRoleMap in _context.EmpRoleMap
-                join role in _context.Role 
-                on empRoleMap.RoleID equals role.Id
-                where empRoleMap.EmployeeID == id
-                select role.Name)
-                .ToList()
-            }).FirstOrDefault();
-            return res;
-        }
+        
 
-        public Role GetRoleById(RoleDto mappedRoleInput)
+    /*  public Role GetRoleById(RoleDto mappedRoleInput)
         {
             var getRoleMapping = _context.Role.Where(u => (u.Name == mappedRoleInput.Name)).FirstOrDefault();
             return getRoleMapping;
         }
+    */
 
-        public int AddEmployeeMapping(int rolesOutput, int employeesOutput)
+        public EmpRoleMap AddEmployeeMapping(EmpRoleMap mapOutput)
         {
-            var res = (from mapping in _context.EmpRoleMap
-                       select new EmpRoleMap
-                       {
-                           EmployeeID = rolesOutput,
-                           RoleID = employeesOutput
-                       }).FirstOrDefault();
-            return 1;
+            var res = _context.EmpRoleMap.Add(mapOutput);
+            _context.SaveChanges();
+            return mapOutput;
         }
     }
 }
