@@ -54,7 +54,7 @@ namespace Demo.Model
         [Route("api/[controller]/{id}")]
         public ActionResult EditEmployee(int id, EditDto employeeInput)
         {
-            employeeInput.Id = id;
+            employeeInput.EmployeeIDs = id;
             var response = _employeeInteractor.EditEmployee(employeeInput);
             return Ok(response);
         }

@@ -47,7 +47,7 @@ namespace Demo.Service.Handlers.EmployeeHandler
             bool isRoleAssigned = _roleRepository.CheckRole(id);
             if (isRoleAssigned ==true)
             {
-                var getRoleMapping = _roleRepository.GetRoleMapping(id);
+                var deletedRoleMapping = _roleRepository.DeletedRoleMapping(id);
             }
             var role = _roleRepository.GetRole(id);
             var rolesOutput = _roleRepository.DeleteRole(role);
