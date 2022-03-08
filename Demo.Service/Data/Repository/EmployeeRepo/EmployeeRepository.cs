@@ -100,7 +100,7 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
 
         public EmpRoleMap AddEmployeeMapping(EmpRoleMap mapOutput)
         {
-            var res = _context.EmpRoleMap.Add(mapOutput);
+            _context.EmpRoleMap.Add(mapOutput);
             _context.SaveChanges();
             return mapOutput;
         }

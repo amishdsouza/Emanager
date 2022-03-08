@@ -36,17 +36,16 @@ namespace Demo.Service.Handlers.EmployeeHandler
         public AddDto AddEmployee(AddDto employeeInput)
         {
             var mappedEmployeeOutput = _mapper.Map<Employee>(employeeInput);
-
             var employeesOutput = _employeeRepository.AddEmployee(mappedEmployeeOutput);
 
-            var userRoleBranch = new EmpRoleMapDto()
+            var empRoleID = new EmpRoleMap()
             {
                 RoleID = employeeInput.RoleIDs,
                 EmployeeID = employeesOutput.Id
             };
 
-            var mapOutput = _mapper.Map<EmpRoleMap>(userRoleBranch);
-            _employeeRepository.AddEmployeeMapping(mapOutput);
+            //var mapOutput = _mapper.Map<EmpRoleMap>(empRoleID);
+            _employeeRepository.AddEmployeeMapping(empRoleID);
             return employeeInput;
         }
 
@@ -55,14 +54,6 @@ namespace Demo.Service.Handlers.EmployeeHandler
             var employeesOutput = _employeeRepository.DeleteEmployee(employee);
             return employeesOutput;
         }
-
-        /*public AddDto AddEmployee(AddDto employeeInput)
-        {
-            var MappedEmployeeInput = _mapper.Map<Employee>(employeeInput);
-            var employeesOutput = _employeeRepository.AddEmployee(MappedEmployeeInput);
-            var mappedEmployeeOutput = _mapper.Map<AddDto>(employeesOutput);
-            return mappedEmployeeOutput;
-        }*/
 
         public EditDto EditEmployee(EditDto employeeInput)
         {

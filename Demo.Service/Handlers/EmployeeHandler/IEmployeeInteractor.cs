@@ -14,8 +14,6 @@ namespace Demo.Service.Handlers.EmployeeHandler
 
         Employee DeleteEmployee(Employee employee);
 
-        //AddDto AddEmployee(AddDto employeeInput);
-
         EditDto EditEmployee(EditDto employeeInput);
 
         AddDto AddEmployee(AddDto employeeInput);
