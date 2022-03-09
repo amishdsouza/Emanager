@@ -50,14 +50,11 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
             return isAssigned;
         }
 
-        public EmpRoleMap DeletedRoleMapping(int id)
+        public void DeletedRoleMapping(int id)
         {
-            var deletedRoleMapping = _context.EmpRoleMap.Where(u => (u.RoleID == id)).FirstOrDefault();
-
-            _context.EmpRoleMap.Remove(deletedRoleMapping);
+            var deletedRoleMapping = _context.EmpRoleMap.Where(u => (u.RoleID == id));
+            _context.EmpRoleMap.RemoveRange(deletedRoleMapping);
             _context.SaveChanges();
-
-            return deletedRoleMapping;
         }
 
         public Role EditRole(Role role)

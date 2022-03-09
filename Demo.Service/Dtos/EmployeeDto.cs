@@ -24,7 +24,7 @@ namespace Demo.Service.Dtos
 
     public class EditDto
     {
-        public int EmployeeIDs { get; set; }
+        public int Id { get; set; }
         public int RoleIDs { get; set; }
         public string Name { get; set; }
         public string EmailID { get; set; }

@@ -72,8 +72,6 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
                 existingEmployee.Name=employee.Name;
                 existingEmployee.EmailID=employee.EmailID;
                 existingEmployee.Gender=employee.Gender;
-
-                _context.Employee.Update(existingEmployee);
                 _context.SaveChanges();
             }
             return employee;
@@ -88,9 +86,6 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
         }
 
        
-
-        
-
     /*  public Role GetRoleById(RoleDto mappedRoleInput)
         {
             var getRoleMapping = _context.Role.Where(u => (u.Name == mappedRoleInput.Name)).FirstOrDefault();
@@ -103,6 +98,13 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
             _context.EmpRoleMap.Add(mapOutput);
             _context.SaveChanges();
             return mapOutput;
+        }
+
+        public void DeleteEmployeeMapping(int id)
+        {
+            var deletedRoleMapping = _context.EmpRoleMap.Where(u => (u.EmployeeID == id));
+            _context.EmpRoleMap.RemoveRange(deletedRoleMapping);
+            _context.SaveChanges();
         }
     }
 }

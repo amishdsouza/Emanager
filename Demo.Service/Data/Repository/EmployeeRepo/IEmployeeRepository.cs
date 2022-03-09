@@ -19,5 +19,7 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
         Employee EditEmployee(Employee employee);
 
         EmpRoleMap AddEmployeeMapping(EmpRoleMap mapOutput);
+
+        void DeleteEmployeeMapping(int id);
     }
 }

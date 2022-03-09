@@ -15,7 +15,7 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
 
 
         bool CheckRole(int id);
-        EmpRoleMap DeletedRoleMapping(int id);
+        void DeletedRoleMapping(int id);
 
         Role EditRole(Role role);
     }
