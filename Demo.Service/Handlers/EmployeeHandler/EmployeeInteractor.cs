@@ -11,13 +11,11 @@ namespace Demo.Service.Handlers.EmployeeHandler
     public class EmployeeInteractor : IEmployeeInteractor
     {
         private readonly IEmployeeRepository _employeeRepository;
-        private readonly IRoleRepository _roleRepository;
         private readonly IMapper _mapper;
 
-        public EmployeeInteractor(IEmployeeRepository employeeRepository, IRoleRepository roleRepository, IMapper mapper)
+        public EmployeeInteractor(IEmployeeRepository employeeRepository, IMapper mapper)
         {
             _employeeRepository = employeeRepository;
-            _roleRepository = roleRepository;
             _mapper = mapper;
         }
 
@@ -35,24 +33,17 @@ namespace Demo.Service.Handlers.EmployeeHandler
             return mappedEmployeesOutput;
         }
 
-        public AddDto AddEmployee(AddDto employeeInput)
+        public EmployeeDto AddEmployee(AddDto employeeInput)
         {
             var mappedEmployeeOutput = _mapper.Map<Employee>(employeeInput);
             var employeesOutput = _employeeRepository.AddEmployee(mappedEmployeeOutput);
 
-            var empRoleID = new EmpRoleMap()
-            {
-                RoleID = employeeInput.RoleIDs,
-                EmployeeID = employeesOutput.Id
-            };
-            _employeeRepository.AddEmployeeMapping(empRoleID);
-            return employeeInput;
-        }
 
-        public Employee DeleteEmployee(Employee employee)
-        {
-            var employeesOutput = _employeeRepository.DeleteEmployee(employee);
-            return employeesOutput;
+            _employeeRepository.AddEmployeeMapping(employeeInput.RoleIDs, employeesOutput.Id);
+
+
+            var mappedEmployeeDtoOutput = GetEmployee(employeesOutput.Id);
+            return mappedEmployeeDtoOutput;
         }
 
         public EmployeeDto EditEmployee(EditDto employeeInput)
@@ -60,20 +51,23 @@ namespace Demo.Service.Handlers.EmployeeHandler
             var mappedEmployeeInput = _mapper.Map<Employee>(employeeInput);
             var employeesOutput = _employeeRepository.EditEmployee(mappedEmployeeInput);
 
-            
-
             var empRoleID = new EmpRoleMap()
             {
                 RoleID = employeeInput.RoleIDs,
                 EmployeeID = employeesOutput.Id
             };
 
-
-            _employeeRepository.DeleteEmployeeMapping(employeeInput.Id);
-            _employeeRepository.AddEmployeeMapping(empRoleID);
+            _employeeRepository.EditEmployeeMapping(empRoleID);
 
             var mappedEmployeeOutput = GetEmployee(employeeInput.Id);
             return mappedEmployeeOutput;
+        }
+
+
+        public Employee DeleteEmployee(Employee employee)
+        {
+            var employeesOutput = _employeeRepository.DeleteEmployee(employee);
+            return employeesOutput;
         }
     }
 }

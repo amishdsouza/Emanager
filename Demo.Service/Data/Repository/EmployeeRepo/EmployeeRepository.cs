@@ -85,19 +85,13 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
 
         }
 
-       
-    /*  public Role GetRoleById(RoleDto mappedRoleInput)
-        {
-            var getRoleMapping = _context.Role.Where(u => (u.Name == mappedRoleInput.Name)).FirstOrDefault();
-            return getRoleMapping;
-        }
-    */
+
 
         public EmpRoleMap AddEmployeeMapping(EmpRoleMap mapOutput)
         {
-            _context.EmpRoleMap.Add(mapOutput);
-            _context.SaveChanges();
-            return mapOutput;
+           _context.EmpRoleMap.Add(mapOutput);
+           _context.SaveChanges();
+           return mapOutput;
         }
 
         public void DeleteEmployeeMapping(int id)
@@ -106,5 +100,28 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
             _context.EmpRoleMap.RemoveRange(deletedRoleMapping);
             _context.SaveChanges();
         }
+
+        public void EditEmployeeMapping(EmpRoleMap empRoleID)
+        {
+            DeleteEmployeeMapping(empRoleID.EmployeeID);
+            AddEmployeeMapping(empRoleID);
+        }
+
+        public void AddEmployeeMapping(List<int> mapOutput, int employeeId)
+        {
+            foreach (var item in mapOutput)
+            {
+                var empRoleID = new EmpRoleMap()
+                {
+                    RoleID = item,
+                    EmployeeID = employeeId
+                };
+                _context.EmpRoleMap.AddRange(empRoleID);
+            }
+
+            _context.SaveChanges();
+        }
+
+       
     }
 }

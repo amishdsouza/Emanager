@@ -6,7 +6,7 @@ namespace Demo.Service.Dtos
 {
     public class EmpRoleMapDto
     {
-        public int RoleID { get; set; }
+        public List<int> RoleID { get; set; }
 
         public int EmployeeID { get; set; }
     }

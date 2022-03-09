@@ -13,13 +13,17 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
         EmployeeDto GetEmployee(int id);
 
         Employee DeleteEmployee(Employee employee);
-        
+
         Employee AddEmployee(Employee employee);
 
         Employee EditEmployee(Employee employee);
 
-        EmpRoleMap AddEmployeeMapping(EmpRoleMap mapOutput);
+        void EditEmployeeMapping(EmpRoleMap empRoleID);
 
+        void AddEmployeeMapping(List<int> mapOutput, int employeeId);
+        
         void DeleteEmployeeMapping(int id);
+
+        
     }
 }

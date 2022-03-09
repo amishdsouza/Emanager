@@ -12,10 +12,10 @@ namespace Demo.Service.Handlers.EmployeeHandler
 
         EmployeeDto GetEmployee(int id);
 
-        Employee DeleteEmployee(Employee employee);
+        EmployeeDto AddEmployee(AddDto employeeInput);
 
         EmployeeDto EditEmployee(EditDto employeeInput);
 
-        AddDto AddEmployee(AddDto employeeInput);
+        Employee DeleteEmployee(Employee employee);
     }
 }
