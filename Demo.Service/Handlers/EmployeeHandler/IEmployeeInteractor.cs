@@ -16,6 +16,6 @@ namespace Demo.Service.Handlers.EmployeeHandler
 
         EmployeeDto EditEmployee(EditDto employeeInput);
 
-        Employee DeleteEmployee(Employee employee);
+        void DeleteEmployee(int id);
     }
 }

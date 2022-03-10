@@ -1,4 +1,5 @@
-﻿using Demo.Service.Data.Repository.EmployeeRepo;
+﻿using AutoMapper;
+using Demo.Service.Data.Repository.EmployeeRepo;
 using Demo.Service.Dtos;
 using Demo.Service.Model;
 using Microsoft.EntityFrameworkCore;
@@ -15,9 +16,12 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
     {
         private readonly DemoDbContext _context;
 
-        public EmployeeRepository(DemoDbContext context)
+        private readonly IMapper _mapper;
+
+        public EmployeeRepository(DemoDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public List<EmployeeDto> GetEmployees()
@@ -77,32 +81,33 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
             return employee;
         }
 
-        public Employee DeleteEmployee(Employee employee)
+        public void DeleteEmployee(int id)
         {
-            _context.Employee.Remove(employee);
-            _context.SaveChanges();
-            return employee;
-
-        }
-
-        public EmpRoleMap AddEmployeeMapping(EmpRoleMap mapOutput)
-        {
-           _context.EmpRoleMap.Add(mapOutput);
-           _context.SaveChanges();
-           return mapOutput;
-        }
-
-        public void DeleteEmployeeMapping(int id)
-        {
-            var deletedRoleMapping = _context.EmpRoleMap.Where(u => (u.EmployeeID == id));
-            _context.EmpRoleMap.RemoveRange(deletedRoleMapping);
+            var existingEmployee = _context.Employee.Find(id);
+            _context.Employee.Remove(existingEmployee);
+            DeleteEmployeeMapping(id);
             _context.SaveChanges();
         }
 
-        public void EditEmployeeMapping(EmpRoleMap empRoleID)
+        public EmployeeDto AddEmployeeDetails(AddDto employeeInput)
         {
-            DeleteEmployeeMapping(empRoleID.EmployeeID);
-            AddEmployeeMapping(empRoleID);
+            var mappedEmployeeOutput = _mapper.Map<Employee>(employeeInput);
+            var employeesOutput = AddEmployee(mappedEmployeeOutput);
+
+            AddEmployeeMapping(employeeInput.RoleIDs, employeesOutput.Id);
+            return GetEmployee(employeesOutput.Id);
+        }
+
+        public EmployeeDto EditEmployeeDetails(EditDto employeeInput)
+        {
+            var mappedEmployeeOutput = _mapper.Map<Employee>(employeeInput);
+            var employeeOutput = EditEmployee(mappedEmployeeOutput);
+
+            DeleteEmployeeMapping(employeeOutput.Id);
+
+            AddEmployeeMapping(employeeInput.RoleIDs, employeeOutput.Id);
+
+            return GetEmployee(employeeInput.Id);
         }
 
         public void AddEmployeeMapping(List<int> mapOutput, int employeeId)
@@ -116,10 +121,14 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
                 };
                 _context.EmpRoleMap.AddRange(empRoleID);
             }
-
             _context.SaveChanges();
         }
 
-       
+        public void DeleteEmployeeMapping(int id)
+        {
+            var deletedRoleMapping = _context.EmpRoleMap.Where(u => (u.EmployeeID == id));
+            _context.EmpRoleMap.RemoveRange(deletedRoleMapping);
+            _context.SaveChanges();
+        }
     }
 }

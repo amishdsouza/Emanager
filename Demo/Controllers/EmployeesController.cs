@@ -63,15 +63,8 @@ namespace Demo.Model
         [Route("api/[controller]/{id}")]
         public ActionResult DeleteEmployee(int id)
         {
-            var employee = _employeeInteractor.GetEmployee(id);
-
-            if (employee != null)
-            {
-                var mappedEmployeesOutput = _mapper.Map<Employee>(employee);
-                _employeeInteractor.DeleteEmployee(mappedEmployeesOutput);
-                return Ok();
-            }
-            return NotFound($"Employee with ID : {id} was not found");
+            _employeeInteractor.DeleteEmployee(id);
+            return Ok($"Employee with ID : {id} is removed");
         }
 
     }

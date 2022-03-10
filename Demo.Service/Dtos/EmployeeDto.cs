@@ -38,9 +38,6 @@ namespace Demo.Service.Dtos
             CreateMap<Employee, EmployeeDto>().ReverseMap();
             CreateMap<Employee, AddDto>().ReverseMap();
             CreateMap<Employee, EditDto>().ReverseMap();
-
-            CreateMap<EmpRoleMap, EmpRoleMapDto>().ReverseMap();
-
         }
     }
 }
