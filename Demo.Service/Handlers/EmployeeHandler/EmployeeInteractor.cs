@@ -51,18 +51,17 @@ namespace Demo.Service.Handlers.EmployeeHandler
             var mappedEmployeeInput = _mapper.Map<Employee>(employeeInput);
             var employeesOutput = _employeeRepository.EditEmployee(mappedEmployeeInput);
 
-            var empRoleID = new EmpRoleMap()
+            /*var empRoleID = new EmpRoleMap()
             {
                 RoleID = employeeInput.RoleIDs,
                 EmployeeID = employeesOutput.Id
             };
-
             _employeeRepository.EditEmployeeMapping(empRoleID);
+            */
 
             var mappedEmployeeOutput = GetEmployee(employeeInput.Id);
             return mappedEmployeeOutput;
         }
-
 
         public Employee DeleteEmployee(Employee employee)
         {

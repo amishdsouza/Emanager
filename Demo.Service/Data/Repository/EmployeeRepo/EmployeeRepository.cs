@@ -85,8 +85,6 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
 
         }
 
-
-
         public EmpRoleMap AddEmployeeMapping(EmpRoleMap mapOutput)
         {
            _context.EmpRoleMap.Add(mapOutput);

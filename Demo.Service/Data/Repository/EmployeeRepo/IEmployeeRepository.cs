@@ -12,11 +12,11 @@ namespace Demo.Service.Data.Repository.EmployeeRepo
 
         EmployeeDto GetEmployee(int id);
 
-        Employee DeleteEmployee(Employee employee);
-
         Employee AddEmployee(Employee employee);
 
         Employee EditEmployee(Employee employee);
+
+        Employee DeleteEmployee(Employee employee);
 
         void EditEmployeeMapping(EmpRoleMap empRoleID);
 
