@@ -14,6 +14,12 @@ using Microsoft.EntityFrameworkCore;
 using Demo.Service.Data;
 using Demo.Service.Data.Repository.EmployeeRepo;
 using Demo.Service.Handlers.EmployeeHandler;
+using Demo.Model;
+using System.Text;
+using Demo.Service.Model;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Demo.Service.Services;
 
 namespace Demo
 {
@@ -41,6 +47,32 @@ namespace Demo
 
             services.AddDbContext<DemoDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DemoConnectionString")));
+            
+            //accessing the jwt key from appsettings.json
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            //jwt authentication
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Key);
+
+            //jwt configuaration 
+            services.AddAuthentication(au => {
+                au.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                au.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(jwt =>
+                {
+                    jwt.RequireHttpsMetadata = false;
+                    jwt.SaveToken = true;
+                    jwt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                }
+            );
+            services.AddScoped<IAuthenticateService, AuthenticateService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
