@@ -12,7 +12,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Demo.Service.Data;
-using Demo.Service.Data.Repository.EmployeeRepo;
 using Demo.Service.Handlers.EmployeeHandler;
 using Demo.Model;
 using System.Text;
@@ -20,6 +19,9 @@ using Demo.Service.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Demo.Service.Services;
+using Demo.Service.Data.Repository.EmployeeRepository;
+using Demo.Service.Handlers.RoleHandler;
+using Demo.Service.Data.Repository.RoleRepository;
 
 namespace Demo
 {

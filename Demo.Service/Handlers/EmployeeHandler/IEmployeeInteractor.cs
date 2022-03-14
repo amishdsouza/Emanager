@@ -8,7 +8,7 @@ namespace Demo.Service.Handlers.EmployeeHandler
 {
     public interface IEmployeeInteractor
     {
-        List<EmployeeDto> GetEmployees();
+        CustomResponse<List<EmployeeDto>> GetEmployees();
 
         EmployeeDto GetEmployee(int id);
 

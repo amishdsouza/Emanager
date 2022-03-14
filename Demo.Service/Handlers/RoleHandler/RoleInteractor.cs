@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using Demo.Service.Data.Repository.EmployeeRepo;
+using Demo.Service.Data.Repository.RoleRepository;
 using Demo.Service.Dtos;
 using Demo.Service.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Demo.Service.Handlers.EmployeeHandler
+namespace Demo.Service.Handlers.RoleHandler
 {
     public class RoleInteractor : IRoleInteractor
     {

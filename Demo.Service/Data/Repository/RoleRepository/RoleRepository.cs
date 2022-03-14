@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Demo.Service.Data.Repository.EmployeeRepo
+namespace Demo.Service.Data.Repository.RoleRepository
 {
     public class RoleRepository : IRoleRepository
     {

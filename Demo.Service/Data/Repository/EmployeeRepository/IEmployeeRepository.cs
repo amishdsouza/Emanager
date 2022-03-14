@@ -4,7 +4,7 @@ using System.Text;
 using Demo.Service.Dtos;
 using Demo.Service.Model;
 
-namespace Demo.Service.Data.Repository.EmployeeRepo
+namespace Demo.Service.Data.Repository.EmployeeRepository
 {
     public interface IEmployeeRepository
     {

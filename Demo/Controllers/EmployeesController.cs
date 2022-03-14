@@ -33,7 +33,7 @@ namespace Demo.Model
         [Route("api/[controller]")]
         public ActionResult GetEmployees()
         {
-            List<EmployeeDto> response = _employeeInteractor.GetEmployees();
+            CustomResponse<List <EmployeeDto>> response = _employeeInteractor.GetEmployees();
             return Ok(response);
         }
 

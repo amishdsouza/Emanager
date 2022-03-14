@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Demo.Service.Data.Repository.EmployeeRepo;
+using Demo.Service.Data.Repository.EmployeeRepository;
 using Demo.Service.Dtos;
 using Demo.Service.Model;
 using System;
@@ -19,15 +19,34 @@ namespace Demo.Service.Handlers.EmployeeHandler
             _mapper = mapper;
         }
 
-        public List<EmployeeDto> GetEmployees()
+        public CustomResponse<List<EmployeeDto>> GetEmployees()
         {
-            var employeesOutput = _employeeRepository.GetEmployees();
-            var mappedEmployeesOutput = _mapper.Map<List<EmployeeDto>>(employeesOutput);
-            return mappedEmployeesOutput;
+            var response = new CustomResponse<List<EmployeeDto>>();
+            var count = 0;
+            response.Result = _employeeRepository.GetEmployees();
+            
+            if (response.Result != null)
+            {
+                foreach (var item in response.Result)
+                {
+                    count++;
+                }
+
+                response.Message = $"{count} Employees data is retrieved successfully.";
+                response.Status = true;
+            }
+            else {
+                response.Message = $"No Employees data is available.";
+                response.Status = false;
+            }
+            return response;
         }
 
         public EmployeeDto GetEmployee(int id)
         {
+
+
+
             var employeesOutput = _employeeRepository.GetEmployee(id);
             var mappedEmployeesOutput = _mapper.Map<EmployeeDto>(employeesOutput);
             return mappedEmployeesOutput;

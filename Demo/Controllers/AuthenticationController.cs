@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace Demo.Controllers
 {
-    //[Authorize]
     [Route("[controller]")]
     [ApiController]
     public class AuthenticationController : Controller

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Demo.Service.Data.Repository.EmployeeRepo;
+using Demo.Service.Data.Repository.EmployeeRepository;
 using Demo.Service.Dtos;
 using Demo.Service.Model;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace Demo.Service.Data.Repository.EmployeeRepo
+namespace Demo.Service.Data.Repository.EmployeeRepository
 {
     public class EmployeeRepository : IEmployeeRepository
     {

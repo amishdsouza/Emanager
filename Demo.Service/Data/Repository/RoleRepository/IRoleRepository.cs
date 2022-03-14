@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Demo.Service.Data.Repository.EmployeeRepo
+namespace Demo.Service.Data.Repository.RoleRepository
 {
     public interface IRoleRepository
     {
