@@ -16,7 +16,7 @@ namespace Demo.Service.Data.Repository.EmployeeRepository
 
         Employee EditEmployee(Employee employee);
 
-        void DeleteEmployee(int id);
+        int DeleteEmployee(int id);
         
         void DeleteEmployeeMapping(int id);
 

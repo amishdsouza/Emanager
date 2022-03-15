@@ -10,12 +10,12 @@ namespace Demo.Service.Handlers.EmployeeHandler
     {
         CustomResponse<List<EmployeeDto>> GetEmployees();
 
-        EmployeeDto GetEmployee(int id);
+        CustomResponse<EmployeeDto> GetEmployee(int id);
 
-        EmployeeDto AddEmployee(AddDto employeeInput);
+        CustomResponse<EmployeeDto> AddEmployee(AddDto employeeInput);
 
-        EmployeeDto EditEmployee(EditDto employeeInput);
+        CustomResponse<EmployeeDto> EditEmployee(EditDto employeeInput);
 
-        void DeleteEmployee(int id);
+        CustomResponse<int> DeleteEmployee(int id);
     }
 }

@@ -81,12 +81,14 @@ namespace Demo.Service.Data.Repository.EmployeeRepository
             return employee;
         }
 
-        public void DeleteEmployee(int id)
+        public int DeleteEmployee(int id)
         {
             var existingEmployee = _context.Employee.Find(id);
             _context.Employee.Remove(existingEmployee);
             DeleteEmployeeMapping(id);
-            _context.SaveChanges();
+            int deleted = 0;
+            deleted = _context.SaveChanges();
+            return deleted;
         }
 
         public EmployeeDto AddEmployeeDetails(AddDto employeeInput)

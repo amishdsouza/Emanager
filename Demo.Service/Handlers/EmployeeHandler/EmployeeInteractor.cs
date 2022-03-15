@@ -22,17 +22,11 @@ namespace Demo.Service.Handlers.EmployeeHandler
         public CustomResponse<List<EmployeeDto>> GetEmployees()
         {
             var response = new CustomResponse<List<EmployeeDto>>();
-            var count = 0;
             response.Result = _employeeRepository.GetEmployees();
             
             if (response.Result != null)
             {
-                foreach (var item in response.Result)
-                {
-                    count++;
-                }
-
-                response.Message = $"{count} Employees data is retrieved successfully.";
+                response.Message = $"{response.Result.Count} Employees data is retrieved successfully.";
                 response.Status = true;
             }
             else {
@@ -42,31 +36,73 @@ namespace Demo.Service.Handlers.EmployeeHandler
             return response;
         }
 
-        public EmployeeDto GetEmployee(int id)
+        public CustomResponse<EmployeeDto> GetEmployee(int id)
         {
-
-
-
-            var employeesOutput = _employeeRepository.GetEmployee(id);
-            var mappedEmployeesOutput = _mapper.Map<EmployeeDto>(employeesOutput);
-            return mappedEmployeesOutput;
+            var response = new CustomResponse<EmployeeDto>();
+            response.Result = _employeeRepository.GetEmployee(id);
+            if (response.Result != null)
+            {
+                response.Message = $"Employee data is retrieved successfully.";
+                response.Status = true;
+            }
+            else
+            {
+                response.Message = $"No Employees data is available.";
+                response.Status = false;
+            }
+            return response;
         }
 
-        public EmployeeDto AddEmployee(AddDto employeeInput)
+        public CustomResponse<EmployeeDto> AddEmployee(AddDto employeeInput)
         {
-            var mappedEmployeeOutput = _employeeRepository.AddEmployeeDetails(employeeInput);
-            return mappedEmployeeOutput;
+            var response = new CustomResponse<EmployeeDto>();
+            response.Result = _employeeRepository.AddEmployeeDetails(employeeInput);
+            if (response.Result != null)
+            {
+                response.Message = $"Employee data is added successfully.";
+                response.Status = true;
+            }
+            else
+            {
+                response.Message = $"Employees data is not added.";
+                response.Status = false;
+            }
+            return response;
         }
 
-        public EmployeeDto EditEmployee(EditDto employeeInput)
+        public CustomResponse<EmployeeDto> EditEmployee(EditDto employeeInput)
         {
-            var employeesOutput = _employeeRepository.EditEmployeeDetails(employeeInput);
-            return employeesOutput;
+            var response = new CustomResponse<EmployeeDto>();
+            response.Result = _employeeRepository.EditEmployeeDetails(employeeInput);
+            if (response.Result != null)
+            {
+                response.Message = $"Employee data is updated successfully.";
+                response.Status = true;
+            }
+            else
+            {
+                response.Message = $"Employees data is not updated.";
+                response.Status = false;
+            }
+            return response;
         }
 
-        public void DeleteEmployee(int id)
+        public CustomResponse<int> DeleteEmployee(int id)
         {
-            _employeeRepository.DeleteEmployee(id);
+            var response = new CustomResponse<int>();
+            int deleted = _employeeRepository.DeleteEmployee(id);
+            if (deleted != 0)
+            {
+                response.Message = $"Employee with ID : {id} is removed";
+                response.Status = true;
+                response.Result = deleted;
+            }
+            else
+            {
+                response.Message = $"Employees data is not deleted.";
+                response.Status = false;
+            }
+            return response;
         }
     }
 }

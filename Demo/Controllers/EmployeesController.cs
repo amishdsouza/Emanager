@@ -66,8 +66,8 @@ namespace Demo.Model
         [Route("api/[controller]/{id}")]
         public ActionResult DeleteEmployee(int id)
         {
-            _employeeInteractor.DeleteEmployee(id);
-            return Ok($"Employee with ID : {id} is removed");
+            var response = _employeeInteractor.DeleteEmployee(id);
+            return Ok(response);
         }
 
     }
