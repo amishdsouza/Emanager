@@ -8,7 +8,7 @@ namespace Demo.Service.Handlers.EmployeeHandler
 {
     public interface IEmployeeInteractor
     {
-        CustomResponse<List<EmployeeDto>> GetEmployees();
+        CustomResponse<PaginationDetails<List<EmployeeDto>>> GetEmployees(int? pageNumber, int? pageSize, string filterText = null);
 
         CustomResponse<EmployeeDto> GetEmployee(int id);
 

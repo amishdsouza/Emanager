@@ -31,9 +31,9 @@ namespace Demo.Model
 
         [HttpGet]
         [Route("api/[controller]")]
-        public ActionResult GetEmployees()
+        public ActionResult GetEmployees(int? pageNumber, int? pageSize, string filterText = null)
         {
-            CustomResponse<List <EmployeeDto>> response = _employeeInteractor.GetEmployees();
+            var response = _employeeInteractor.GetEmployees(pageNumber, pageSize, filterText);
             return Ok(response);
         }
 

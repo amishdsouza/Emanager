@@ -19,17 +19,34 @@ namespace Demo.Service.Handlers.EmployeeHandler
             _mapper = mapper;
         }
 
-        public CustomResponse<List<EmployeeDto>> GetEmployees()
+        public CustomResponse<PaginationDetails<List<EmployeeDto>>> GetEmployees(int? pageNumber, int? pageSize, string filterText = null)
         {
-            var response = new CustomResponse<List<EmployeeDto>>();
-            response.Result = _employeeRepository.GetEmployees();
-            
+            var response = new CustomResponse<PaginationDetails<List<EmployeeDto>>>();
+
+            var employeesOutput = _employeeRepository.GetEmployees(pageNumber, pageSize, filterText);
+
+
+            var paginationDetails = new PaginationDetails<List<EmployeeDto>>();
+            paginationDetails.Items = employeesOutput;
+
+
+            if (!string.IsNullOrEmpty(filterText))
+                paginationDetails.TotalCount = _employeeRepository.GetEmployees(filterText).Count;
+            else
+                paginationDetails.TotalCount = _employeeRepository.GetTotalNumberOfEmployees();
+
+
+
+            response.Status = true;
+            response.Result = paginationDetails;
+
             if (response.Result != null)
             {
-                response.Message = $"{response.Result.Count} Employees data is retrieved successfully.";
+                response.Message = $"{paginationDetails.Items.Count} Employees data is retrieved successfully.";
                 response.Status = true;
             }
-            else {
+            else
+            {
                 response.Message = $"No Employees data is available.";
                 response.Status = false;
             }
@@ -104,5 +121,7 @@ namespace Demo.Service.Handlers.EmployeeHandler
             }
             return response;
         }
+
+       
     }
 }

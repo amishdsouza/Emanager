@@ -10,4 +10,10 @@ namespace Demo.Service.Dtos
         public string Message { get; set; }
         public T Result { get; set; }
     }
+
+    public class PaginationDetails<T>
+    {
+        public T Items { get; set; }
+        public int TotalCount { get; set; }
+    }
 }

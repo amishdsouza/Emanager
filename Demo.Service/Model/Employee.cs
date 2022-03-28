@@ -14,5 +14,6 @@ namespace Demo.Service.Model
         public string Name { get; set; }
         public string EmailID { get; set; }
         public string Gender { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

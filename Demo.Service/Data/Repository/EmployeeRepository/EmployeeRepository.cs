@@ -24,43 +24,7 @@ namespace Demo.Service.Data.Repository.EmployeeRepository
             _mapper = mapper;
         }
 
-        public List<EmployeeDto> GetEmployees()
-        {
-            var res = (from employee in _context.Employee
-                       select new EmployeeDto
-                       {
-                           Name = employee.Name,
-                           EmailID = employee.EmailID,
-                           Gender = employee.Gender,
-                           Roles = (
-                                   from empRoleMap in _context.EmpRoleMap
-                                   join role in _context.Role
-                                   on empRoleMap.RoleID equals role.Id
-                                   where empRoleMap.EmployeeID == employee.Id
-                                   select role.Name).ToList() 
-                       }).ToList();
-            return res;
-        }
-
-        public EmployeeDto GetEmployee(int id)
-        {
-            var res = (from employee in _context.Employee
-                       where employee.Id == id
-                       select new EmployeeDto
-                       {
-                           Name = employee.Name,
-                           EmailID = employee.EmailID,
-                           Gender = employee.Gender,
-                           Roles = (
-                           from empRoleMap in _context.EmpRoleMap
-                           join role in _context.Role
-                           on empRoleMap.RoleID equals role.Id
-                           where empRoleMap.EmployeeID == id
-                           select role.Name)
-                           .ToList()
-                       }).FirstOrDefault();
-            return res;
-        }
+        
         public Employee AddEmployee(Employee employee)
         {
             _context.Employee.Add(employee);
@@ -83,10 +47,12 @@ namespace Demo.Service.Data.Repository.EmployeeRepository
 
         public int DeleteEmployee(int id)
         {
-            var existingEmployee = _context.Employee.Find(id);
-            _context.Employee.Remove(existingEmployee);
-            DeleteEmployeeMapping(id);
             int deleted = 0;
+            var existingEmployee = _context.Employee.Find(id);
+            DeleteEmployeeMapping(id);
+
+            _context.Employee.Remove(existingEmployee);
+            
             deleted = _context.SaveChanges();
             return deleted;
         }
@@ -132,5 +98,123 @@ namespace Demo.Service.Data.Repository.EmployeeRepository
             _context.EmpRoleMap.RemoveRange(deletedRoleMapping);
             _context.SaveChanges();
         }
+
+        public EmployeeDto GetEmployee(int id)
+        {
+            var res = (from employee in _context.Employee
+                       where employee.Id == id
+                       select new EmployeeDto
+                       {
+                           Name = employee.Name,
+                           EmailID = employee.EmailID,
+                           Gender = employee.Gender,
+                           Roles = (
+                           from empRoleMap in _context.EmpRoleMap
+                           join role in _context.Role
+                           on empRoleMap.RoleID equals role.Id
+                           where empRoleMap.EmployeeID == id
+                           select role.Name)
+                           .ToList()
+                       }).FirstOrDefault();
+            return res;
+        }
+
+
+
+        public int GetTotalNumberOfEmployees()
+        {
+            int totalCount = _context.Employee.Count();
+            return totalCount;
+        }
+
+
+        public List<EmployeeDto> GetEmployees(int? pageNumber, int? pageSize, string filterText = null)
+        {
+            var employeesrole = new List<EmployeeDto>();
+            if (!string.IsNullOrEmpty(filterText))
+            {
+                employeesrole = GetEmployees(filterText);
+
+                if (pageNumber.HasValue && pageSize.HasValue)
+                    employeesrole = employeesrole.Skip((pageNumber.Value - 1) * pageSize.Value)
+                                        .Take(pageSize.Value)
+                                        .ToList();
+                else if (pageSize.HasValue)
+                    employeesrole = employeesrole.Take(pageSize.Value)
+                                         .ToList();
+            }
+            else
+            { 
+                if (pageNumber.HasValue && pageSize.HasValue)
+                    employeesrole = (from employee in _context.Employee.Skip((pageNumber.Value - 1) * pageSize.Value)
+                                                                        .Take(pageSize.Value)
+                 select new EmployeeDto
+                 {
+                     Name = employee.Name,
+                     EmailID = employee.EmailID,
+                     Gender = employee.Gender,
+                     Roles = (
+                            from empRoleMap in _context.EmpRoleMap
+                            join role in _context.Role
+                            on empRoleMap.RoleID equals role.Id
+                            where empRoleMap.EmployeeID == employee.Id
+                            select role.Name).ToList()
+                 }).ToList();
+
+
+                else if (pageSize.HasValue)
+                    employeesrole = (from employee in _context.Employee.Take(pageSize.Value)
+                                 select new EmployeeDto
+                                 {
+                                     Name = employee.Name,
+                                     EmailID = employee.EmailID,
+                                     Gender = employee.Gender,
+                                     Roles = (
+                                            from empRoleMap in _context.EmpRoleMap
+                                            join role in _context.Role
+                                            on empRoleMap.RoleID equals role.Id
+                                            where empRoleMap.EmployeeID == employee.Id
+                                            select role.Name).ToList()
+                                 }).ToList();
+
+                else
+                    employeesrole = (from employee in _context.Employee
+                                     select new EmployeeDto
+                                     {
+                                         Name = employee.Name,
+                                         EmailID = employee.EmailID,
+                                         Gender = employee.Gender,
+                                         Roles = (
+                                                from empRoleMap in _context.EmpRoleMap
+                                                join role in _context.Role
+                                                on empRoleMap.RoleID equals role.Id
+                                                where empRoleMap.EmployeeID == employee.Id
+                                                select role.Name).ToList()
+                                     }).ToList();
+
+            }
+            return employeesrole;
+        }
+
+        public List<EmployeeDto> GetEmployees(string key)
+        {
+
+            var employees = (from employee in _context.Employee
+                       .Where(b => !string.IsNullOrEmpty(b.Name) && !string.IsNullOrEmpty(key) && b.Name.ToLower().Contains(key.ToLower()))
+                       select new EmployeeDto
+                       {
+                           Name = employee.Name,
+                           EmailID = employee.EmailID,
+                           Gender = employee.Gender,
+                           Roles = (
+                                  from empRoleMap in _context.EmpRoleMap
+                                  join role in _context.Role
+                                  on empRoleMap.RoleID equals role.Id
+                                  where empRoleMap.EmployeeID == employee.Id
+                                  select role.Name).ToList()
+                       }).ToList();
+            return employees;
+        }
+
     }
 }

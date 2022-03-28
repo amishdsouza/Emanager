@@ -8,7 +8,12 @@ namespace Demo.Service.Data.Repository.EmployeeRepository
 {
     public interface IEmployeeRepository
     {
-        List<EmployeeDto> GetEmployees();
+        List<EmployeeDto> GetEmployees(int? pageNumber, int? pageSize, string filterText = null);
+
+        List<EmployeeDto> GetEmployees(string key);
+
+        int GetTotalNumberOfEmployees();
+
 
         EmployeeDto GetEmployee(int id);
 
