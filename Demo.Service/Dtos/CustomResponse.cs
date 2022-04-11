@@ -13,7 +13,7 @@ namespace Demo.Service.Dtos
 
     public class PaginationDetails<T>
     {
-        public T Items { get; set; }
+        public T Values { get; set; }
         public int TotalCount { get; set; }
     }
 }

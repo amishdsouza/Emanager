@@ -13,7 +13,7 @@ namespace Demo.Service.Dtos
 
     public class EditRoleDto
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
     }
 
@@ -23,6 +23,8 @@ namespace Demo.Service.Dtos
         {
             CreateMap<Role, RoleDto>().ReverseMap();
             CreateMap<Role, EditRoleDto>().ReverseMap();
+
+            CreateMap<RoleBasedDto, EmployeeDto>().ReverseMap();
         }
     }
 }

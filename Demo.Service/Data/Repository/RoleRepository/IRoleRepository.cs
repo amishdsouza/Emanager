@@ -10,12 +10,11 @@ namespace Demo.Service.Data.Repository.RoleRepository
     {
         Role AddRole(Role role);
         Role DeleteRole(Role role);
-        Role GetRole(int id);
+        Role GetRole(string id);
         List<Role> GetRoles();
 
-
-        bool CheckRole(int id);
-        void DeletedRoleMapping(int id);
+        bool CheckRole(string id);
+        void DeletedRoleMapping(string id);
 
         Role EditRole(Role role);
     }

@@ -18,6 +18,7 @@ namespace Demo.Service.Data.Repository.RoleRepository
 
         public Role AddRole(Role role)
         {
+            role.Id = Guid.NewGuid().ToString();
             _context.Role.Add(role);
             _context.SaveChanges();
             return role;
@@ -30,9 +31,9 @@ namespace Demo.Service.Data.Repository.RoleRepository
             return role;
         }
 
-        public Role GetRole(int id)
+        public Role GetRole(string id)
         {
-            var role =  _context.Role.Find(id);
+            var role = _context.Role.Find(id);
             return role;
         }
 
@@ -43,14 +44,14 @@ namespace Demo.Service.Data.Repository.RoleRepository
 
 
 
-        public bool CheckRole(int id)
+        public bool CheckRole(string id)
         {
             bool isAssigned = _context.EmpRoleMap.Any(j => j.Id == id);
-            
+
             return isAssigned;
         }
 
-        public void DeletedRoleMapping(int id)
+        public void DeletedRoleMapping(string id)
         {
             var deletedRoleMapping = _context.EmpRoleMap.Where(u => (u.RoleID == id));
             _context.EmpRoleMap.RemoveRange(deletedRoleMapping);

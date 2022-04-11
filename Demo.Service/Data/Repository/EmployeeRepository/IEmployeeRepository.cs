@@ -15,18 +15,24 @@ namespace Demo.Service.Data.Repository.EmployeeRepository
         int GetTotalNumberOfEmployees();
 
 
-        EmployeeDto GetEmployee(int id);
+        EmployeeDto GetEmployee(string id);
 
         Employee AddEmployee(Employee employee);
 
         Employee EditEmployee(Employee employee);
 
-        int DeleteEmployee(int id);
-        
-        void DeleteEmployeeMapping(int id);
+        int DeleteEmployee(string id);
+
+        void DeleteEmployeeMapping(string id);
 
         EmployeeDto AddEmployeeDetails(AddDto employeeInput);
 
         EmployeeDto EditEmployeeDetails(EditDto employeeInput);
+
+        bool CheckIfUserDetailsExists(string EmailID);
+
+        List<GenderBasedDto> GetEmployeeByGender(string filterText);
+
+        List<RoleBasedDto> GetEmployeeByRole(string filterText);
     }
 }

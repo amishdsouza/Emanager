@@ -40,7 +40,7 @@ namespace Demo
         {
             services.AddControllers();
 
-            
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<IEmployeeInteractor, EmployeeInteractor>();
@@ -51,7 +51,7 @@ namespace Demo
 
             services.AddDbContext<DemoDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DemoConnectionString")));
-            
+
             //accessing the jwt key from appsettings.json
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
@@ -93,7 +93,7 @@ namespace Demo
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-                
+
             .AddJwtBearer(jwt =>
             {
                 jwt.RequireHttpsMetadata = false;

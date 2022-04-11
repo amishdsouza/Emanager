@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Demo.Service.Data;
+using Demo.Service.Enums;
 using AutoMapper;
 using Demo.Service.Dtos;
 using Demo.Service.Handlers.EmployeeHandler;
@@ -30,7 +31,43 @@ namespace Demo.Model
         }
 
         [HttpGet]
-        [Route("api/[controller]")]
+        [Route("InitialData")]
+        public ActionResult InitialData()
+        {
+            var response = new CustomResponse<EmployeeInitialDataDto>();
+            var employeeInitialData = new EmployeeInitialDataDto()
+            {
+                Role = _employeeInteractor.GetRoles(),
+                EmployeeGenderType = _employeeInteractor.GetGender()
+            };
+
+            response.Status = true;
+            response.Message = $"Retrieved initial data.";
+            response.Result = employeeInitialData;
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("GetByRole/{filterText}")]
+        public ActionResult GetEmployeeByRole(string filterText = null)
+        {
+            var response = _employeeInteractor.GetEmployeeByRole(filterText);
+            return Ok(response);
+        }
+
+
+        //getemp by role such as hr, manager
+
+        [HttpGet]
+        [Route("GetByGender/{filterText}")]
+        public ActionResult GetByGender(string filterText = null)
+        {
+            var response = _employeeInteractor.GetEmployeeByGender(filterText);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("EmployeeInformation")]
         public ActionResult GetEmployees(int? pageNumber, int? pageSize, string filterText = null)
         {
             var response = _employeeInteractor.GetEmployees(pageNumber, pageSize, filterText);
@@ -38,15 +75,15 @@ namespace Demo.Model
         }
 
         [HttpGet]
-        [Route("api/[controller]/{id}")]
-        public ActionResult GetEmployee(int id)
+        [Route("EmployeeInformationbyId/{id}")]
+        public ActionResult GetEmployee(string id)
         {
             var response = _employeeInteractor.GetEmployee(id);
             return Ok(response);
         }
 
         [HttpPost]
-        [Route("api/[controller]")]
+        [Route("AddEmployee")]
         public ActionResult AddEmployee(AddDto employeeInput)
         {
             var response = _employeeInteractor.AddEmployee(employeeInput);
@@ -54,8 +91,8 @@ namespace Demo.Model
         }
 
         [HttpPatch]
-        [Route("api/[controller]/{id}")]
-        public ActionResult EditEmployee(int id, EditDto employeeInput)
+        [Route("EditEmployee/{id}")]
+        public ActionResult EditEmployee(string id, EditDto employeeInput)
         {
             employeeInput.Id = id;
             var response = _employeeInteractor.EditEmployee(employeeInput);
@@ -63,8 +100,8 @@ namespace Demo.Model
         }
 
         [HttpDelete]
-        [Route("api/[controller]/{id}")]
-        public ActionResult DeleteEmployee(int id)
+        [Route("DeleteEmployee/{id}")]
+        public ActionResult DeleteEmployee(string id)
         {
             var response = _employeeInteractor.DeleteEmployee(id);
             return Ok(response);

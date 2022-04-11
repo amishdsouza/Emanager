@@ -32,7 +32,7 @@ namespace Demo.Controllers
 
         [HttpGet]
         [Route("api/[controller]/{id}")]
-        public ActionResult GetRole(int id)
+        public ActionResult GetRole(string id)
         {
             var response = _roleInteractor.GetRole(id);
             return Ok(response);
@@ -49,7 +49,7 @@ namespace Demo.Controllers
 
         [HttpDelete]
         [Route("api/[controller]/{id}")]
-        public ActionResult DeleteRole(int id)
+        public ActionResult DeleteRole(string id)
         {
             var response = _roleInteractor.DeleteRole(id);
             return Ok(response);
@@ -57,7 +57,7 @@ namespace Demo.Controllers
 
         [HttpPatch]
         [Route("api/[controller]/{id}")]
-        public ActionResult EditRole(int id, EditRoleDto roleInput)
+        public ActionResult EditRole(string id, EditRoleDto roleInput)
         {
             roleInput.Id = id;
             var response = _roleInteractor.EditRole(roleInput);

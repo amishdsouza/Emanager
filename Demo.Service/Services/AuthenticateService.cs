@@ -12,7 +12,7 @@ namespace Demo.Service.Services
     public class AuthenticateService : IAuthenticateService
     {
         public readonly AppSettings _appSettings;
-        public AuthenticateService(IOptions <AppSettings> appSettings)
+        public AuthenticateService(IOptions<AppSettings> appSettings)
         {
             _appSettings = appSettings.Value;
         }

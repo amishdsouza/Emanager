@@ -9,14 +9,14 @@ namespace Demo.Service.Model
     public class EmpRoleMap
     {
         [Key]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
 
-        public int EmployeeID { get; set; }
+        public string EmployeeID { get; set; }
         [ForeignKey("EmployeeID")]
         public virtual Employee Employees { get; set; }
 
-        public int RoleID { get; set; }
+        public string RoleID { get; set; }
         [ForeignKey("RoleID")]
         public virtual Role Roles { get; set; }
 

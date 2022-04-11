@@ -10,11 +10,11 @@ namespace Demo.Service.Handlers.RoleHandler
     {
         List<RoleDto> GetRoles();
 
-        RoleDto GetRole(int id);
+        RoleDto GetRole(string id);
 
         RoleDto AddRole(RoleDto roleInput);
 
-        Role DeleteRole(int id);
+        Role DeleteRole(string id);
 
         EditRoleDto EditRole(EditRoleDto roleInput);
     }

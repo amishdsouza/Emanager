@@ -24,11 +24,11 @@ namespace Demo.Service.Handlers.RoleHandler
             var mappedRoleInput = _mapper.Map<Role>(roleInput);
             var rolesOutput = _roleRepository.AddRole(mappedRoleInput);
 
-            var mappedRoleOutput = _mapper.Map <RoleDto>(rolesOutput);
+            var mappedRoleOutput = _mapper.Map<RoleDto>(rolesOutput);
             return mappedRoleOutput;
         }
 
-        public RoleDto GetRole(int id)
+        public RoleDto GetRole(string id)
         {
             var roleOutput = _roleRepository.GetRole(id);
             var mappedRoleOutput = _mapper.Map<RoleDto>(roleOutput);
@@ -42,10 +42,10 @@ namespace Demo.Service.Handlers.RoleHandler
             return mappedEmployeesOutput;
         }
 
-        public Role DeleteRole(int id)
+        public Role DeleteRole(string id)
         {
             bool isRoleAssigned = _roleRepository.CheckRole(id);
-            if (isRoleAssigned ==true)
+            if (isRoleAssigned == true)
             {
                 _roleRepository.DeletedRoleMapping(id);
             }
@@ -53,7 +53,7 @@ namespace Demo.Service.Handlers.RoleHandler
             var rolesOutput = _roleRepository.DeleteRole(role);
             return rolesOutput;
         }
-        
+
         public EditRoleDto EditRole(EditRoleDto roleInput)
         {
             var mappedRoleInput = _mapper.Map<Role>(roleInput);
