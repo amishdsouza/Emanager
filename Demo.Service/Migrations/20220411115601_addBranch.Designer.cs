@@ -3,14 +3,16 @@ using Demo.Service.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Demo.Service.Migrations
 {
     [DbContext(typeof(DemoDbContext))]
-    partial class DemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220411115601_addBranch")]
+    partial class addBranch
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,26 +31,6 @@ namespace Demo.Service.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Branch");
-                });
-
-            modelBuilder.Entity("Demo.Service.Model.EmpBranchMap", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("BranchID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("EmployeeID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BranchID");
-
-                    b.HasIndex("EmployeeID");
-
-                    b.ToTable("EmpBranchMap");
                 });
 
             modelBuilder.Entity("Demo.Service.Model.EmpRoleMap", b =>
@@ -104,17 +86,6 @@ namespace Demo.Service.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Role");
-                });
-
-            modelBuilder.Entity("Demo.Service.Model.EmpBranchMap", b =>
-                {
-                    b.HasOne("Demo.Service.Model.Branch", "Branches")
-                        .WithMany()
-                        .HasForeignKey("BranchID");
-
-                    b.HasOne("Demo.Service.Model.Employee", "Employees")
-                        .WithMany()
-                        .HasForeignKey("EmployeeID");
                 });
 
             modelBuilder.Entity("Demo.Service.Model.EmpRoleMap", b =>

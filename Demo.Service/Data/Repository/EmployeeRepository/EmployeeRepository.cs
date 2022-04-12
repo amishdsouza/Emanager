@@ -125,10 +125,7 @@ namespace Demo.Service.Data.Repository.EmployeeRepository
 
         public int GetTotalNumberOfEmployees()
         {
-            //int totalCount =_context.Employee.Count();
-
             int totalCount = (from employee in _context.Employee where !employee.IsDeleted select employee.Id).Count();
-
             return totalCount;
         }
 
@@ -266,5 +263,91 @@ namespace Demo.Service.Data.Repository.EmployeeRepository
                              }).ToList();
             return employees;
         }
+
+
+
+        public EmployeeWithBranchDto AddEmployeeWithBranchDetails(EmployeeWithBranchDto employeeInput)
+        {
+            var mappedEmployeeOutput = _mapper.Map<Employee>(employeeInput);
+            var employeesOutput = AddEmployee(mappedEmployeeOutput);
+
+            AddEmployeeMapping(employeeInput.RoleIDs, employeesOutput.Id);
+
+            AddBranchMapping(employeeInput.BranchID, employeesOutput.Id);
+
+            return employeeInput;
+        }
+
+        public void AddBranchMapping(string branchId, string employeeId)
+        {
+            var empBranch = new EmpBranchMap()
+            {
+                EmployeeID = employeeId,
+                BranchID = branchId
+                
+            };
+            empBranch.Id = Guid.NewGuid().ToString();
+            _context.EmpBranchMap.AddRange(empBranch);
+            _context.SaveChanges();
+        }
+
+        public List<EmployeeWithBranchDto> GetEmployeeAndBranch(string id = null)
+        {
+            var res = new List<EmployeeWithBranchDto>();
+
+            if (!string.IsNullOrEmpty(id)) 
+            { 
+                res = (from employee in _context.Employee
+                           where employee.Id == id && !employee.IsDeleted
+
+                           from empRoleMap in _context.EmpRoleMap
+                           join roleInformation in _context.Role 
+                           on empRoleMap.RoleID equals roleInformation.Id
+                           where empRoleMap.EmployeeID == id
+
+                           from empBranchMap in _context.EmpBranchMap
+                           join branchInformation in _context.Branch
+                           on empBranchMap.BranchID equals branchInformation.Id
+                           where empBranchMap.EmployeeID == id
+
+                           select new EmployeeWithBranchDto
+                           {
+                               Name = employee.Name,
+                               EmailID = employee.EmailID,
+                               Gender = employee.Gender,
+                               BranchID = branchInformation.Name,
+
+                           }).ToList();
+                return res;
+            }
+            else
+            {
+                res = (from employee in _context.Employee
+                        join empBranchMap in _context.EmpBranchMap on employee.Id equals empBranchMap.EmployeeID into bj
+                        from empBranchMap in bj.DefaultIfEmpty()
+
+                        join branchInformation in _context.Branch
+                        on empBranchMap.BranchID equals branchInformation.Id 
+
+                       select new EmployeeWithBranchDto
+                       {
+                            Name = employee.Name,
+                            EmailID = employee.EmailID,
+                            Gender = employee.Gender,
+                            BranchID = branchInformation.Name,
+                           
+                           
+                            RoleIDs = (
+                                        from empRoleMap in _context.EmpRoleMap
+                                        join role in _context.Role
+                                        on empRoleMap.RoleID equals role.Id
+                                        where empRoleMap.EmployeeID == employee.Id
+                                        select role.Name).ToList()
+
+                       }).ToList();
+                return res;
+            }
+        }
+
     }
 }

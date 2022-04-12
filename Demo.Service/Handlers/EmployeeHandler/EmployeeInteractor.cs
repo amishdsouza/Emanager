@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Demo.Service.Data.Repository.BranchRepository;
 using Demo.Service.Data.Repository.EmployeeRepository;
 using Demo.Service.Data.Repository.RoleRepository;
 using Demo.Service.Dtos;
@@ -15,12 +16,14 @@ namespace Demo.Service.Handlers.EmployeeHandler
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IRoleRepository _roleRepository;
+        private readonly IBranchRepository _branchRepository;
         private readonly IMapper _mapper;
 
-        public EmployeeInteractor(IEmployeeRepository employeeRepository, IMapper mapper, IRoleRepository roleRepository)
+        public EmployeeInteractor(IEmployeeRepository employeeRepository, IMapper mapper, IRoleRepository roleRepository, IBranchRepository branchRepository)
         {
             _employeeRepository = employeeRepository;
             _roleRepository = roleRepository;
+            _branchRepository = branchRepository;
             _mapper = mapper;
         }
 
@@ -259,5 +262,78 @@ namespace Demo.Service.Handlers.EmployeeHandler
             }
             return response;
         }
+
+        public CustomResponse<EmployeeWithBranchDto> AddEmployeeWithBranch(EmployeeWithBranchDto employeeInput)
+        {
+            var response = new CustomResponse<EmployeeWithBranchDto>();
+
+            if (string.IsNullOrEmpty(employeeInput.Name)
+                || string.IsNullOrEmpty(employeeInput.EmailID)
+                || string.IsNullOrEmpty(employeeInput.Gender)
+                || string.IsNullOrEmpty(employeeInput.BranchID)
+                || employeeInput.RoleIDs.Count == 0)
+            {
+                response.Status = false;
+                if (string.IsNullOrEmpty(employeeInput.Name))
+                    response.Message = $"Name field cannot be empty. ";
+
+                if (string.IsNullOrEmpty(employeeInput.EmailID))
+                    response.Message += $"Email field cannot be empty. ";
+
+                if (string.IsNullOrEmpty(employeeInput.Gender))
+                    response.Message += $"Gender field cannot be empty. ";
+
+                if (string.IsNullOrEmpty(employeeInput.BranchID))
+                    response.Message += $"Branch field cannot be empty. ";
+
+                if (employeeInput.RoleIDs.Count == 0)
+                {
+                    response.Message += $"Role field cannot be empty. ";
+                    return response;
+                }
+            }
+
+            var ifUserDetailsExists = _employeeRepository.CheckIfUserDetailsExists(employeeInput.EmailID);
+            if (ifUserDetailsExists)
+            {
+                response.Message += $"Email Address already existing. ";
+                return response;
+            }
+
+
+            response.Result = _employeeRepository.AddEmployeeWithBranchDetails(employeeInput);
+            
+            if (response.Result != null)
+            {
+                response.Message = $"Employee data is added successfully.";
+                response.Status = true;
+            }
+            else
+            {
+                response.Message = $"Employees data is not added.";
+                response.Status = false;
+            }
+            return response;
+
+        }
+
+        public CustomResponse<List<EmployeeWithBranchDto>> GetEmployeeAndBranch(string filterText = null)
+        {
+            var response = new CustomResponse<List<EmployeeWithBranchDto>>();
+            var employeesOutput = _employeeRepository.GetEmployeeAndBranch(filterText);
+            response.Result = employeesOutput;
+            if (response.Result != null)
+            {
+                response.Message = $"{employeesOutput.Count} Employee data is retrieved successfully.";
+                response.Status = true;
+            }
+            else
+            {
+                response.Message = $"No Employees data is available.";
+                response.Status = false;
+            }
+            return response;
+        }
+
     }
 }

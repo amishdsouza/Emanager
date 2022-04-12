@@ -16,6 +16,7 @@ namespace Demo.Service.Data
         public DbSet<Employee> Employee { get; set; }
         public DbSet<EmpRoleMap> EmpRoleMap { get; set; }
         public DbSet<Role> Role { get; set; }
-
+        public DbSet<Branch> Branch { get; set; }
+        public DbSet<EmpBranchMap> EmpBranchMap { get; set; }
     }
 }

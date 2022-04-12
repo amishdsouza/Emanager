@@ -23,6 +23,8 @@ using Demo.Service.Data.Repository.EmployeeRepository;
 using Demo.Service.Handlers.RoleHandler;
 using Demo.Service.Data.Repository.RoleRepository;
 using Microsoft.OpenApi.Models;
+using Demo.Service.Handlers.BranchHandler;
+using Demo.Service.Data.Repository.BranchRepository;
 
 namespace Demo
 {
@@ -46,8 +48,14 @@ namespace Demo
             services.AddScoped<IEmployeeInteractor, EmployeeInteractor>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
+
             services.AddScoped<IRoleInteractor, RoleInteractor>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+
+
+            services.AddScoped<IBranchInteractor, BranchInteractor>();
+            services.AddScoped<IBranchRepository, BranchRepository>();
+
 
             services.AddDbContext<DemoDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DemoConnectionString")));

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Demo.Service.Migrations
 {
     [DbContext(typeof(DemoDbContext))]
-    [Migration("20220328121021_IsDeleted")]
-    partial class IsDeleted
+    [Migration("20220412072941_branchmaptable")]
+    partial class branchmaptable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,18 +20,49 @@ namespace Demo.Service.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Demo.Service.Model.Branch", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Branch");
+                });
+
+            modelBuilder.Entity("Demo.Service.Model.EmpBranchMap", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BranchID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("EmployeeID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchID");
+
+                    b.HasIndex("EmployeeID");
+
+                    b.ToTable("EmpBranchMap");
+                });
+
             modelBuilder.Entity("Demo.Service.Model.EmpRoleMap", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("EmployeeID")
-                        .HasColumnType("int");
+                    b.Property<string>("EmployeeID")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("RoleID")
-                        .HasColumnType("int");
+                    b.Property<string>("RoleID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -44,10 +75,8 @@ namespace Demo.Service.Migrations
 
             modelBuilder.Entity("Demo.Service.Model.Employee", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("EmailID")
                         .HasColumnType("nvarchar(max)");
@@ -68,10 +97,8 @@ namespace Demo.Service.Migrations
 
             modelBuilder.Entity("Demo.Service.Model.Role", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -81,19 +108,26 @@ namespace Demo.Service.Migrations
                     b.ToTable("Role");
                 });
 
+            modelBuilder.Entity("Demo.Service.Model.EmpBranchMap", b =>
+                {
+                    b.HasOne("Demo.Service.Model.Branch", "Branches")
+                        .WithMany()
+                        .HasForeignKey("BranchID");
+
+                    b.HasOne("Demo.Service.Model.Employee", "Employees")
+                        .WithMany()
+                        .HasForeignKey("EmployeeID");
+                });
+
             modelBuilder.Entity("Demo.Service.Model.EmpRoleMap", b =>
                 {
                     b.HasOne("Demo.Service.Model.Employee", "Employees")
                         .WithMany()
-                        .HasForeignKey("EmployeeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeID");
 
                     b.HasOne("Demo.Service.Model.Role", "Roles")
                         .WithMany()
-                        .HasForeignKey("RoleID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoleID");
                 });
 #pragma warning restore 612, 618
         }

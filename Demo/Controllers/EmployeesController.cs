@@ -56,8 +56,6 @@ namespace Demo.Model
         }
 
 
-        //getemp by role such as hr, manager
-
         [HttpGet]
         [Route("GetByGender/{filterText}")]
         public ActionResult GetByGender(string filterText = null)
@@ -107,5 +105,21 @@ namespace Demo.Model
             return Ok(response);
         }
 
+
+        [HttpPost]
+        [Route("AddEmployeeWithBranch")]
+        public ActionResult AddEmployeeWithBranch(EmployeeWithBranchDto employeeInput)
+        {
+            var response = _employeeInteractor.AddEmployeeWithBranch(employeeInput);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("GetEmployeeAndBranch")]
+        public ActionResult GetEmployeeAndBranch(string filterText = null)
+        {
+            var response = _employeeInteractor.GetEmployeeAndBranch(filterText);
+            return Ok(response);
+        }
     }
 }

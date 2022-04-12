@@ -34,5 +34,10 @@ namespace Demo.Service.Data.Repository.EmployeeRepository
         List<GenderBasedDto> GetEmployeeByGender(string filterText);
 
         List<RoleBasedDto> GetEmployeeByRole(string filterText);
+
+        EmployeeWithBranchDto AddEmployeeWithBranchDetails(EmployeeWithBranchDto employeeInput);
+
+        List<EmployeeWithBranchDto> GetEmployeeAndBranch(string filtertext = null);
+
     }
 }
