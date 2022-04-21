@@ -55,12 +55,27 @@ namespace Demo.Model
             return Ok(response);
         }
 
-
         [HttpGet]
         [Route("GetByGender/{filterText}")]
         public ActionResult GetByGender(string filterText = null)
         {
             var response = _employeeInteractor.GetEmployeeByGender(filterText);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("GetEmpByGenderUsingGroupby")]
+        public ActionResult GetEmpByGenderUsingGroupby()
+        {
+            var response = _employeeInteractor.GetEmpByGenderUsingGroupby(); 
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("GetEmpByGenderUsingGroupbyArray")]
+        public ActionResult GetEmpByGenderUsingGroupbyArray()
+        {
+            var response = _employeeInteractor.GetEmpByGenderUsingGroupbyArray();
             return Ok(response);
         }
 
@@ -121,5 +136,8 @@ namespace Demo.Model
             var response = _employeeInteractor.GetEmployeeAndBranch(filterText);
             return Ok(response);
         }
+
+
+
     }
 }

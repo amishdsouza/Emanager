@@ -25,7 +25,7 @@ namespace Demo.Service.Data.Repository.EmployeeRepository
 
         void DeleteEmployeeMapping(string id);
 
-        EmployeeDto AddEmployeeDetails(AddDto employeeInput);
+        EmployeeDto AddEmployeeWithRoleDetails(AddDto employeeInput);
 
         EmployeeDto EditEmployeeDetails(EditDto employeeInput);
 
@@ -35,9 +35,10 @@ namespace Demo.Service.Data.Repository.EmployeeRepository
 
         List<RoleBasedDto> GetEmployeeByRole(string filterText);
 
-        EmployeeWithBranchDto AddEmployeeWithBranchDetails(EmployeeWithBranchDto employeeInput);
+        List<EmployeeWithBranchDto> AddEmployeeWithBranchDetails(EmployeeWithBranchDto employeeInput);
 
         List<EmployeeWithBranchDto> GetEmployeeAndBranch(string filtertext = null);
+
 
     }
 }

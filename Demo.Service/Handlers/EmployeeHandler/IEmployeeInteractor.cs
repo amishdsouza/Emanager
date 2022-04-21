@@ -27,8 +27,13 @@ namespace Demo.Service.Handlers.EmployeeHandler
 
         CustomResponse<List<RoleBasedDto>> GetEmployeeByRole(string filterText);
 
-        CustomResponse<EmployeeWithBranchDto> AddEmployeeWithBranch(EmployeeWithBranchDto employeeInput);
+
+        CustomResponse<List<EmployeeWithBranchDto>> AddEmployeeWithBranch(EmployeeWithBranchDto employeeInput);
 
         CustomResponse<List<EmployeeWithBranchDto>> GetEmployeeAndBranch(string filterText = null);
+
+        CustomResponse<List<GenderTableTemplateDto>> GetEmpByGenderUsingGroupby();
+
+        CustomResponse<List<GenderTableTemplateDtoArray>> GetEmpByGenderUsingGroupbyArray();
     }
 }

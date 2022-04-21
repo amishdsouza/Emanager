@@ -46,6 +46,8 @@ namespace Demo.Service.Dtos
         public string BranchID { get; set; }
     }
 
+   
+
     public class EditDto
     {
         public string Id { get; set; }
@@ -53,6 +55,13 @@ namespace Demo.Service.Dtos
         public string Name { get; set; }
         public string EmailID { get; set; }
         public string Gender { get; set; }
+    }
+
+    public class GenderGroupDto
+    {
+        public List<string> Roles { get; set; }
+
+        public List<string> Genders { get; set; }
     }
 
     public class UserInfoDto
@@ -67,6 +76,33 @@ namespace Demo.Service.Dtos
         public List<EmployeeGenderType> EmployeeGenderType { get; set; }
     }
 
+
+    //groupby
+    public class GenderTableTemplateDto
+    {
+        public string Gender { get; set; }
+        public List<EmployeeData> EmployeeData { get; set; }
+    }
+
+    //groupbyArray
+    public class GenderTableTemplateDtoArray
+    {
+        //public string Gender { get; set; }
+
+        public List<EmployeeData> Male { get; set; }
+
+        public List<EmployeeData> Female { get; set; }
+    }
+    public class EmployeeData
+    {
+        public string Name { get; set; }
+        public string EmailID { get; set; }
+        public string BranchID { get; set; }
+        public List<string> RoleIDs { get; set; }
+    }
+
+
+
     public class EmployeeProfile : Profile
     {
         public EmployeeProfile()
@@ -75,7 +111,6 @@ namespace Demo.Service.Dtos
             CreateMap<Employee, AddDto>().ReverseMap();
             CreateMap<Employee, EditDto>().ReverseMap();
             CreateMap<Employee, EmployeeWithBranchDto>().ReverseMap();
-            
         }
     }
 }

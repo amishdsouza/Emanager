@@ -44,7 +44,6 @@ namespace Demo.Service.Handlers.EmployeeHandler
                 paginationDetails.TotalCount = _employeeRepository.GetTotalNumberOfEmployees();
 
 
-
             response.Status = true;
             response.Result = paginationDetails;
 
@@ -122,7 +121,7 @@ namespace Demo.Service.Handlers.EmployeeHandler
                 return response;
             }
 
-            response.Result = _employeeRepository.AddEmployeeDetails(employeeInput);
+            response.Result = _employeeRepository.AddEmployeeWithRoleDetails(employeeInput);
             if (response.Result != null)
             {
                 response.Message = $"Employee data is added successfully.";
@@ -218,7 +217,6 @@ namespace Demo.Service.Handlers.EmployeeHandler
         }
 
 
-
         public CustomResponse<List<GenderBasedDto>> GetEmployeeByGender(string filterText)
         {
             var response = new CustomResponse<List<GenderBasedDto>>();
@@ -263,9 +261,9 @@ namespace Demo.Service.Handlers.EmployeeHandler
             return response;
         }
 
-        public CustomResponse<EmployeeWithBranchDto> AddEmployeeWithBranch(EmployeeWithBranchDto employeeInput)
+        public CustomResponse<List<EmployeeWithBranchDto>> AddEmployeeWithBranch(EmployeeWithBranchDto employeeInput)
         {
-            var response = new CustomResponse<EmployeeWithBranchDto>();
+            var response = new CustomResponse<List<EmployeeWithBranchDto>>();
 
             if (string.IsNullOrEmpty(employeeInput.Name)
                 || string.IsNullOrEmpty(employeeInput.EmailID)
@@ -314,7 +312,6 @@ namespace Demo.Service.Handlers.EmployeeHandler
                 response.Status = false;
             }
             return response;
-
         }
 
         public CustomResponse<List<EmployeeWithBranchDto>> GetEmployeeAndBranch(string filterText = null)
@@ -335,5 +332,97 @@ namespace Demo.Service.Handlers.EmployeeHandler
             return response;
         }
 
+
+        public CustomResponse<List<GenderTableTemplateDto>> GetEmpByGenderUsingGroupby()
+        {
+            var response = new CustomResponse<List<GenderTableTemplateDto>>();
+            var groupedDataList = new List<GenderTableTemplateDto>();
+            var employeesOutput = _employeeRepository.GetEmployeeAndBranch();
+
+            var groupedTblData = employeesOutput.GroupBy(t => t.Gender).ToList();
+            foreach (var values in groupedTblData)
+            {
+                var groupedDataObj = new GenderTableTemplateDto();
+                groupedDataObj.Gender = values.Key;
+                groupedDataObj.EmployeeData = new List<EmployeeData>();
+                foreach (var info in values)
+                {
+                    var groupedEmployeeObjInfo = new EmployeeData()
+                    {
+                        Name = info.Name,
+                        EmailID = info.EmailID,
+                        BranchID = info.BranchID,
+                        RoleIDs = info.RoleIDs,
+                    };
+                    groupedDataObj.EmployeeData.Add(groupedEmployeeObjInfo);
+                }
+                groupedDataList.Add(groupedDataObj);
+            }
+            //two arrays of female and male with emp informations. 
+            
+            response.Result = groupedDataList;
+
+            if (response.Result != null)
+            {
+                response.Message = $"Employee data is retrieved successfully.";
+                response.Status = true;
+            }
+            else
+            {
+                response.Message = $"No Employees data is available.";
+                response.Status = false;
+            }
+
+            return response;
+        }
+
+        public CustomResponse<List<GenderTableTemplateDtoArray>> GetEmpByGenderUsingGroupbyArray()
+        {
+            var employeesOutput = _employeeRepository.GetEmployeeAndBranch();
+            var groupedTblData = employeesOutput.GroupBy(t => t.Gender).ToList();
+
+            var response = new CustomResponse<List<GenderTableTemplateDtoArray>>();
+            var groupedDataList = new List<GenderTableTemplateDtoArray>();
+            var groupedDataObj = new GenderTableTemplateDtoArray();
+            groupedDataObj.Male = new List<EmployeeData>();
+            groupedDataObj.Female = new List<EmployeeData>();
+            foreach (var values in groupedTblData)
+            {
+                foreach (var info in values)
+                {
+                    var groupedEmployeeObjInfo = new EmployeeData();
+                    if(values.Key == EmployeeGenderType.Male.Name.ToString())
+                    {
+                        groupedEmployeeObjInfo.Name = info.Name;
+                        groupedEmployeeObjInfo.EmailID = info.EmailID;
+                        groupedEmployeeObjInfo.BranchID = info.BranchID;
+                        groupedEmployeeObjInfo.RoleIDs = info.RoleIDs;
+                        groupedDataObj.Male.Add(groupedEmployeeObjInfo);
+                    }
+                    else
+                    {
+                        groupedEmployeeObjInfo.Name = info.Name;
+                        groupedEmployeeObjInfo.EmailID = info.EmailID;
+                        groupedEmployeeObjInfo.BranchID = info.BranchID;
+                        groupedEmployeeObjInfo.RoleIDs = info.RoleIDs;
+                        groupedDataObj.Female.Add(groupedEmployeeObjInfo);
+                    }
+                }
+            }
+            groupedDataList.Add(groupedDataObj);
+            response.Result = groupedDataList;
+
+            if (response.Result != null)
+            {
+                response.Message = $"Employee data is retrieved successfully.";
+                response.Status = true;
+            }
+            else
+            {
+                response.Message = $"No Employees data is available.";
+                response.Status = false;
+            }
+            return response;
+        }
     }
 }
